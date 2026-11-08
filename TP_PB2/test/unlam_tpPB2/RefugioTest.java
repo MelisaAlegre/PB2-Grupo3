@@ -21,11 +21,11 @@ public class RefugioTest {
 	public void setUp(){
 		
 		refugio = new Refugio("Refugio Patitas");
-		perro = new Perro ("A23", "Lolo", 4, 5.2, Estado.ADOPTADO, Tamanio.MEDIANO, NivelEntrenamiento.BASICO);
+		perro = new Perro ("A23", "Lolo", 4, 5.2, Estado.ADOPTADO, Tamanio.MEDIANO, true);
 		gato = new Gato ("F11", "Pipa", 1, 2.7, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
-		adoptante = new Adoptante(3636336, "Sabrina", 1109091234, "San Martin 389");
+		adoptante = new Adoptante(3636336, "Sabrina", 1109091234, "San Martin 389",TipoVivienda.CASA,true,true);
 		gato2 = new Gato ("F22", "Vainilla", 5, 6.0, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
-		adoptante2 = new Adoptante(9087653, "Gladys", 1109343434, "Belgrano 90");
+		adoptante2 = new Adoptante(9087653, "Gladys", 1109343434, "Belgrano 90", TipoVivienda.DEPARTAMENTO,true,true);
 		
 		
 	}
@@ -43,6 +43,34 @@ public class RefugioTest {
 			refugio.registrarSolicitud(nuevaSolicitud);
 			
 		}
+	@Test
+	public void registrarYBuscarAdoptantePorDniExistente() {
+		Adoptante nuevoAdoptante=new Adoptante(46022185, "Karen", 1144661546, "Roma 55",TipoVivienda.CASA, true, true);
+		refugio.agregarAdoptante(nuevoAdoptante);
+		
+		Adoptante adoptanteEncontrado= refugio.buscarAdoptantePorDni(nuevoAdoptante);
+		assertEquals(46022185, adoptanteEncontrado.getDni(),0.0);
+		
+		
+	}
+		
+	@Test
+	public void registrarYBuscarAnimalPorCodigoExistosamente() {
+		Animal nuevoPerro = new Perro ("A50", "Mara", 8, 3.7, Estado.DISPONIBLE, Tamanio.PEQUEÑO, true);
+		refugio.agregarAnimal(nuevoPerro);
+		
+		Animal animalEncontrado= refugio.buscarAnimalPorCodigo(nuevoPerro);
+		assertEquals("A50", animalEncontrado.getCodigoAnimal());
+	}
+	
+	@Test(expected = AdoptanteDuplicadoException.class)
+	public void noPermitirAdoptanteDuplicado() throws AdoptanteDuplicadoException {
+		Adoptante nuevoAdoptante=new Adoptante(9087653, "Mara", 1144661546, "Roma 55",TipoVivienda.CASA, true, true);
+		refugio.registrarAdoptante(nuevoAdoptante);
+		refugio.registrarAdoptante(adoptante2);
+		
+		
+	}
 		
 	
 	@Test
@@ -69,21 +97,43 @@ public class RefugioTest {
 		
 	}
 	
+
 	@Test
-	public void validarAlmacenamientoCorrectoAdoptante() {
+	public void crearSolicitudDeAdopcionYRegistrarEnLaLista() {
 		
 	}
 	
 	@Test
-	public void verificaRealizarChequeoMedico() {
+	public void evitarSolicitudDuplicadaParaElMismoAnimal() {
 		
 	}
 	
 	@Test
-	public void intentarAdoptarAnimalNoDisposibleException() {
+	public void validarCumplimientoDeRequisitosDeAdopcion() {
+		
+	}
+	@Test
+	public void rechazoAdopcionPerroSinPatio() {
+		
+	}
+	@Test
+	public void cumplimiendtoRequisitosAdopcionConPerroConPatio() {
 		
 	}
 	
+	@Test
+	public void rechazoAdopcionGatoConRestriccionDeMascotas() {
+		
+	}
+	
+	@Test
+	public void concretarAdopcionExitosaYCambiarEstado() {
+		
+	}
+	
+
+
+
 	
 	
 }

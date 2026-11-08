@@ -2,26 +2,34 @@ package unlam_tpPB2;
 
 public class Perro extends Animal{
 	
-	private NivelEntrenamiento nivelEntrenamiento;
+	private Boolean requierePatio;
 	private Tamanio tamanio;
 	
 
-	public Perro(String codigoAnimal, String nombre, Integer edadAproximada, double peso, Estado estado, Tamanio tamanio, NivelEntrenamiento nivelEntrenamiento) {
+	public Perro(String codigoAnimal, String nombre, Integer edadAproximada, double peso, Estado estado, Tamanio tamanio, Boolean requierePatio) {
 		super(codigoAnimal, nombre, edadAproximada, peso, estado);
 		this.tamanio = tamanio;
-		this.nivelEntrenamiento = nivelEntrenamiento;
-		
+		this.requierePatio=requierePatio;	
 	}
 
 
-	public NivelEntrenamiento getNivelEntrenamiento() {
-		return nivelEntrenamiento;
+	
+
+
+	public Boolean getRequierePatio() {
+		return requierePatio;
 	}
 
 
-	public void setNivelEntrenamiento(NivelEntrenamiento nivelEntrenamiento) {
-		this.nivelEntrenamiento = nivelEntrenamiento;
+
+
+
+	public void setRequierePatio(Boolean requierePatio) {
+		this.requierePatio = requierePatio;
 	}
+
+
+
 
 
 	public Tamanio getTamanio() {

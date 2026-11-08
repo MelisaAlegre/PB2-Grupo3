@@ -3,13 +3,13 @@ package unlam_tpPB2;
 public class Gato extends Animal{
 	
 	private TipoPelaje tipoPelaje;
-	private boolean aptoParaExterior;
+	private boolean requiereHogarSinOtraMascota;
 	
 	
-	public Gato(String codigoAnimal, String nombre, Integer edadAproximada, double peso, Estado estado, TipoPelaje tipoPelaje, boolean AptoParaExterior) {
+	public Gato(String codigoAnimal, String nombre, Integer edadAproximada, double peso, Estado estado, TipoPelaje tipoPelaje, boolean requiereHogarSinOtraMascota) {
 		super(codigoAnimal, nombre, edadAproximada, peso, estado);
 		this.tipoPelaje = tipoPelaje;
-		this.aptoParaExterior = false;
+		this.requiereHogarSinOtraMascota=requiereHogarSinOtraMascota;
 		
 		
 	}
@@ -25,15 +25,16 @@ public class Gato extends Animal{
 	}
 
 
-	public boolean isAptoParaExterior() {
-		return aptoParaExterior;
+	public boolean isRequiereHogarSinOtraMascota() {
+		return requiereHogarSinOtraMascota;
 	}
 
 
-	public void setAptoParaExterior(boolean aptoParaExterior) {
-		this.aptoParaExterior = aptoParaExterior;
+	public void setRequiereHogarSinOtraMascota(boolean requiereHogarSinOtraMascota) {
+		this.requiereHogarSinOtraMascota = requiereHogarSinOtraMascota;
 	}
-	
+
+
 	
 	
 	

@@ -52,6 +52,14 @@ public class Refugio {
 		
 	}
 	
+	public void registrarAdoptante(Adoptante adoptante) throws AdoptanteDuplicadoException {
+		if(this.adoptantes.containsKey(adoptante.getDni())) {
+			throw new AdoptanteDuplicadoException ("El adoptante ya está registrado");
+		}
+		this.adoptantes.put(adoptante.getDni(), adoptante);
+		
+	}
+	
 	public void registrarSolicitud(SolicitudAdopcion solicitud) throws AnimalNoDisponibleException {
 		
 		Animal animal = solicitud.getAnimalSolicitado();
@@ -63,7 +71,23 @@ public class Refugio {
 		
 		this.solicitudes.add(solicitud);
 	}
+	
+	public Adoptante buscarAdoptantePorDni(Adoptante nuevoAdoptante) {
+		// TODO Auto-generated method stub
+		return this.adoptantes.get(nuevoAdoptante.getDni());
+	}
 
+	public Animal buscarAnimalPorCodigo(Animal nuevoPerro) {
+		// TODO Auto-generated method stub
+		for (Animal animal : animales) {
+			if(animal.getCodigoAnimal().equals(nuevoPerro.getCodigoAnimal())) {
+			return animal;
+		}
+		
+	}
+		return null;
+
+	}
 
 
 }

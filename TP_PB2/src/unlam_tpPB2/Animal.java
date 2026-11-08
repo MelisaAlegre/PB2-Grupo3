@@ -5,11 +5,11 @@ public abstract class Animal {
 	private String codigoAnimal;
 	private String nombre;
 	private Integer edadAproximada;
-	private double peso;
+	private Double peso;
 	private Estado estado;
 	
 	
-	public Animal(String codigoAnimal, String nombre, Integer edadAproximada, double peso, Estado estado) {
+	public Animal(String codigoAnimal, String nombre, Integer edadAproximada, Double peso, Estado estado) {
 		this.codigoAnimal = codigoAnimal;
 		this.nombre = nombre;
 		this.edadAproximada = edadAproximada;
@@ -48,7 +48,7 @@ public abstract class Animal {
 	}
 
 
-	public double getPeso() {
+	public Double getPeso() {
 		return peso;
 	}
 

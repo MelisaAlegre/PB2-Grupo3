@@ -66,7 +66,7 @@ public class Refugio {
 		Animal animal = solicitud.getAnimalSolicitado();
 		
 		if (animal.getEstado() != Estado.DISPONIBLE) {
-			throw new AnimalNoDisponibleException("Este animal no se encuentra disponible");
+			throw new AnimalNoDisponibleException("Este animal no se encuentra disponible o ya ha sido adoptado");
 		}
 		
 		

@@ -18,6 +18,7 @@ public class RefugioTest {
 	private Gato gato;
 	private Gato gato2;
 	private Adoptante adoptante;
+	private Adoptante adoptanteRepetido;
 	private Adoptante adoptante2;
 	private Adoptante adoptante3;
 	
@@ -29,6 +30,7 @@ public class RefugioTest {
 		perro2 = new Perro ("A45", "Mora", 2, 3.1, Estado.DISPONIBLE, Tamanio.MEDIANO, true);
 		gato = new Gato ("F11", "Pipa", 1, 2.7, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
 		adoptante = new Adoptante(3636336, "Sabrina", 1109091234, "San Martin 389",TipoVivienda.CASA,true,true);
+		adoptanteRepetido = new Adoptante(3636336, "Sabrina", 1109091234, "San Martin 389",TipoVivienda.CASA,true,true);
 		gato2 = new Gato ("F22", "Vainilla", 5, 6.0, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
 		adoptante2 = new Adoptante(9087653, "Gladys", 1109343434, "Belgrano 90", TipoVivienda.DEPARTAMENTO,true,true);
 		adoptante3 = new Adoptante(4527120, "Agustin", 1122442321, "Rivadavia 2354", TipoVivienda.DEPARTAMENTO,false,true);
@@ -70,6 +72,7 @@ public class RefugioTest {
 	}
 	
 	@Test(expected = AdoptanteDuplicadoException.class)
+	
 	public void noPermitirAdoptanteDuplicado() throws AdoptanteDuplicadoException {
 		Adoptante nuevoAdoptante=new Adoptante(9087653, "Mara", 1144661546, "Roma 55",TipoVivienda.CASA, true, true);
 		refugio.registrarAdoptante(nuevoAdoptante);
@@ -119,14 +122,22 @@ public class RefugioTest {
 	}
 	
 	@Test
-	public void evitarSolicitudDuplicadaParaElMismoAnimal() {
+	public void concretarAdopcionExitosaYCambiarEstado() throws AnimalNoDisponibleException  {
+		
+		refugio.agregarAnimal(perro2);
+		refugio.agregarAdoptante(adoptante);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(5, LocalDate.of(2026, 11, 9), adoptante, perro2);
+		
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		Boolean seConcreto = refugio.concretarAdopcion(nuevaSolicitud);
+		
+		assertEquals(Estado.ADOPTADO, perro2.getEstado());
+		assertTrue(seConcreto);
 		
 	}
 	
-	@Test
-	public void validarCumplimientoDeRequisitosDeAdopcion() {
-		
-	}
 	@Test
 	public void rechazoAdopcionPerroSinPatio()  throws AnimalNoDisponibleException {
 		
@@ -143,8 +154,30 @@ public class RefugioTest {
 		
 		
 	}
+	
+	@Test (expected = AnimalNoDisponibleException.class)
+	public void evitarSolicitudDuplicadaParaElMismoAnimal() throws AnimalNoDisponibleException {
+		
+		refugio.agregarAnimal(gato);
+		refugio.agregarAdoptante(adoptante);
+		refugio.agregarAdoptante(adoptanteRepetido);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(3, LocalDate.of(2026, 11, 7), adoptante, gato);
+		SolicitudAdopcion nuevaSolicitud2 = new SolicitudAdopcion(5, LocalDate.of(2026, 11, 9), adoptanteRepetido, gato);
+		
+		refugio.registrarSolicitud(nuevaSolicitud);
+		refugio.registrarSolicitud(nuevaSolicitud2);
+		
+		
+	}
+	
 	@Test
-	public void cumplimiendtoRequisitosAdopcionConPerroConPatio() {
+	public void validarCumplimientoDeRequisitosDeAdopcion() {
+		
+	}
+	
+	@Test
+	public void cumplimientoRequisitosAdopcionConPerroConPatio() {
 		
 	}
 	
@@ -153,22 +186,6 @@ public class RefugioTest {
 		
 	}
 	
-	@Test
-	public void concretarAdopcionExitosaYCambiarEstado() throws AnimalNoDisponibleException  {
-		
-		refugio.agregarAnimal(perro2);
-		refugio.agregarAdoptante(adoptante);
-		
-		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(5, LocalDate.of(2026, 11, 9), adoptante, perro2);
-		
-		refugio.registrarSolicitud(nuevaSolicitud);
-		
-		Boolean seConcreto = refugio.concretarAdopcion(nuevaSolicitud);
-		
-		assertEquals(Estado.ADOPTADO, perro2.getEstado());
-		assertTrue(seConcreto);
-		
-	}
 	
 
 

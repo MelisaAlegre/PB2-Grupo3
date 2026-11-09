@@ -1,6 +1,6 @@
 package unlam_tpPB2;
 
-public class Perro extends Animal{
+public class Perro extends Animal {
 	
 	private Boolean requierePatio;
 	private Tamanio tamanio;
@@ -39,6 +39,18 @@ public class Perro extends Animal{
 
 	public void setTamanio(Tamanio tamanio) {
 		this.tamanio = tamanio;
+	}
+
+
+
+
+
+	@Override
+	public Boolean cumpleRequisitosAdopcion(Adoptante adoptante) {
+		if(this.requierePatio == adoptante.getTienePatio()) {
+			return true;
+		}
+		return false;
 	}
 
 	

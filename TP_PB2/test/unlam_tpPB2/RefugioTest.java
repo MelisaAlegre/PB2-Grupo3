@@ -1,6 +1,8 @@
 package unlam_tpPB2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.TreeSet;
@@ -12,20 +14,24 @@ public class RefugioTest {
 
 	private Refugio refugio;
 	private Perro perro;
+	private Perro perro2;
 	private Gato gato;
 	private Gato gato2;
 	private Adoptante adoptante;
 	private Adoptante adoptante2;
+	private Adoptante adoptante3;
 	
 	@Before
 	public void setUp(){
 		
 		refugio = new Refugio("Refugio Patitas");
 		perro = new Perro ("A23", "Lolo", 4, 5.2, Estado.ADOPTADO, Tamanio.MEDIANO, true);
+		perro2 = new Perro ("A45", "Mora", 2, 3.1, Estado.DISPONIBLE, Tamanio.MEDIANO, true);
 		gato = new Gato ("F11", "Pipa", 1, 2.7, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
 		adoptante = new Adoptante(3636336, "Sabrina", 1109091234, "San Martin 389",TipoVivienda.CASA,true,true);
 		gato2 = new Gato ("F22", "Vainilla", 5, 6.0, Estado.DISPONIBLE, TipoPelaje.CORTO, true);
 		adoptante2 = new Adoptante(9087653, "Gladys", 1109343434, "Belgrano 90", TipoVivienda.DEPARTAMENTO,true,true);
+		adoptante3 = new Adoptante(4527120, "Agustin", 1122442321, "Rivadavia 2354", TipoVivienda.DEPARTAMENTO,false,true);
 		
 		
 	}
@@ -99,8 +105,17 @@ public class RefugioTest {
 	
 
 	@Test
-	public void crearSolicitudDeAdopcionYRegistrarEnLaLista() {
+	public void crearSolicitudDeAdopcionYRegistrarEnLaLista()  throws AnimalNoDisponibleException {
 		
+		refugio.agregarAnimal(gato);
+		refugio.agregarAdoptante(adoptante2);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(1, LocalDate.of(2026, 11, 9), adoptante2, gato);
+		
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		assertEquals(1, refugio.getSolicitudes().size());
+		assertEquals(1, refugio.getSolicitudes().first().getIdSolicitud(), 0.0);
 	}
 	
 	@Test
@@ -113,7 +128,19 @@ public class RefugioTest {
 		
 	}
 	@Test
-	public void rechazoAdopcionPerroSinPatio() {
+	public void rechazoAdopcionPerroSinPatio()  throws AnimalNoDisponibleException {
+		
+		refugio.agregarAnimal(perro2);
+		refugio.agregarAdoptante(adoptante3);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(1, LocalDate.of(2026, 11, 9), adoptante3, perro2);
+		
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		Boolean seRechazoLaSolicitud = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		
+		assertFalse(seRechazoLaSolicitud);
+		
 		
 	}
 	@Test
@@ -127,7 +154,19 @@ public class RefugioTest {
 	}
 	
 	@Test
-	public void concretarAdopcionExitosaYCambiarEstado() {
+	public void concretarAdopcionExitosaYCambiarEstado() throws AnimalNoDisponibleException  {
+		
+		refugio.agregarAnimal(perro2);
+		refugio.agregarAdoptante(adoptante);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(5, LocalDate.of(2026, 11, 9), adoptante, perro2);
+		
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		Boolean seConcreto = refugio.concretarAdopcion(nuevaSolicitud);
+		
+		assertEquals(Estado.ADOPTADO, perro2.getEstado());
+		assertTrue(seConcreto);
 		
 	}
 	

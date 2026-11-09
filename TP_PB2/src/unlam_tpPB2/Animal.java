@@ -1,6 +1,6 @@
 package unlam_tpPB2;
 
-public abstract class Animal {
+public abstract class Animal implements Adoptable{
 
 	private String codigoAnimal;
 	private String nombre;
@@ -66,6 +66,9 @@ public abstract class Animal {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
+
+
+	
 	
 	
 	

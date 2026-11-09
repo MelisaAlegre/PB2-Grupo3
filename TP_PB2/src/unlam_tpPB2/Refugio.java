@@ -12,6 +12,7 @@ public class Refugio {
 	private List <Animal> animales;
 	private Map <Integer, Adoptante> adoptantes;
 	private TreeSet <SolicitudAdopcion> solicitudes;
+	private TreeSet <SolicitudAdopcion> adopcionesExitosas;
 
 	public Refugio(String nombre) {
 		
@@ -19,6 +20,7 @@ public class Refugio {
 		this.animales = new ArrayList<>();
 		this.adoptantes = new HashMap<>();
 		this.solicitudes = new TreeSet<>();
+		this.adopcionesExitosas = new TreeSet<>();
 	}
 
 	public String getNombre() {
@@ -34,7 +36,6 @@ public class Refugio {
 	public Map<Integer, Adoptante> getAdoptantes() {
 		return adoptantes;
 	}
-
 	public TreeSet<SolicitudAdopcion> getSolicitudes() {
 		return solicitudes;
 	}
@@ -70,6 +71,7 @@ public class Refugio {
 		
 		
 		this.solicitudes.add(solicitud);
+		animal.setEstado(Estado.EN_PROCESO);
 	}
 	
 	public Adoptante buscarAdoptantePorDni(Adoptante nuevoAdoptante) {
@@ -87,6 +89,34 @@ public class Refugio {
 	}
 		return null;
 
+	}
+
+	public Boolean evaluaLosRequisitosDeAdopcion(SolicitudAdopcion solicitud) {
+		
+		Animal animal = solicitud.getAnimalSolicitado();
+		Adoptante adoptante = solicitud.getAdoptante();
+		
+		return animal.cumpleRequisitosAdopcion(adoptante);
+		
+		
+	}
+
+	public Boolean concretarAdopcion(SolicitudAdopcion nuevaSolicitud) {
+
+		Boolean seCumplio = evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		
+		if(seCumplio) {
+			Animal animal = nuevaSolicitud.getAnimalSolicitado();
+			
+			animal.setEstado(Estado.ADOPTADO);
+		
+			this.adopcionesExitosas.add(nuevaSolicitud);
+			
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 

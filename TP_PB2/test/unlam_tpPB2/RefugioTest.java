@@ -172,7 +172,15 @@ public class RefugioTest {
 	}
 	
 	@Test
-	public void validarCumplimientoDeRequisitosDeAdopcion() {
+	public void validarCumplimientoDeRequisitosDeAdopcion() throws AnimalNoDisponibleException {
+		refugio.agregarAnimal(perro2);
+		refugio.agregarAdoptante(adoptante);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(7, LocalDate.of(2026, 11, 9), adoptante, perro2);
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		assertTrue(cumpleRequisitos);
 		
 	}
 	

@@ -172,17 +172,42 @@ public class RefugioTest {
 	}
 	
 	@Test
-	public void validarCumplimientoDeRequisitosDeAdopcion() {
+	public void validarCumplimientoDeRequisitosDeAdopcion() throws AnimalNoDisponibleException {
+		refugio.agregarAnimal(gato);
+		refugio.agregarAdoptante(adoptante2);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(6, LocalDate.of(2026, 11, 9), adoptante2, gato);
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		assertTrue(cumpleRequisitos);
+	}
+	
+	@Test
+	public void cumplimientoRequisitosAdopcionConPerroConPatio() throws AnimalNoDisponibleException {
+		refugio.agregarAnimal(perro2);
+		refugio.agregarAdoptante(adoptante3); 
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(7, LocalDate.of(2026, 11, 9), adoptante3, perro2);
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		assertTrue(cumpleRequisitos);
 		
 	}
 	
 	@Test
-	public void cumplimientoRequisitosAdopcionConPerroConPatio() {
+	public void rechazoAdopcionGatoConRestriccionDeMascotas() throws AnimalNoDisponibleException {
+		Adoptante adoptanteSinMascotas = new Adoptante(12345678, "Carlos", 1155443322, "Mitre 123", TipoVivienda.DEPARTAMENTO, true, false);
 		
-	}
-	
-	@Test
-	public void rechazoAdopcionGatoConRestriccionDeMascotas() {
+		refugio.agregarAnimal(gato);
+		refugio.agregarAdoptante(adoptanteSinMascotas);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(8, LocalDate.of(2026, 11, 9), adoptanteSinMascotas, gato);
+		refugio.registrarSolicitud(nuevaSolicitud);
+		
+		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
+		assertFalse(cumpleRequisitos);
 		
 	}
 	

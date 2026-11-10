@@ -181,7 +181,6 @@ public class RefugioTest {
 		
 		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
 		assertTrue(cumpleRequisitos);
-		
 	}
 	
 	@Test

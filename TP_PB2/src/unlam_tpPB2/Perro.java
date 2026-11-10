@@ -1,6 +1,6 @@
 package unlam_tpPB2;
 
-public class Perro extends Animal {
+public class Perro extends Animal implements Vacunable {
 	
 	private Boolean requierePatio;
 	private Tamanio tamanio;
@@ -47,14 +47,17 @@ public class Perro extends Animal {
 
 	@Override
 	public Boolean cumpleRequisitosAdopcion(Adoptante adoptante) {
-		if(this.requierePatio == adoptante.getTienePatio()) {
-			return true;
+		if(this.requierePatio && !adoptante.getTienePatio()) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	
-	
+	@Override
+	public int getCantidadVacunasRequeridas() {
+		return 3;
+	}
 	
 	
 }

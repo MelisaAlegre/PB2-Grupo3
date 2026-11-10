@@ -43,10 +43,12 @@ public class SolicitudAdopcion implements Comparable <SolicitudAdopcion>{
 
 	@Override
 	public int compareTo(SolicitudAdopcion otraSolicitud) {
-		
-		return this.fechaSolicitud.compareTo(otraSolicitud.getFechaSolicitud());
+		int resultado = this.fechaSolicitud.compareTo(otraSolicitud.getFechaSolicitud());
+		if (resultado == 0) {
+			return this.idSolicitud.compareTo(otraSolicitud.getIdSolicitud());
+		}
+		return resultado;
 	}
-	
 	
 	
 

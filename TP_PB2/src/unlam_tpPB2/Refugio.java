@@ -118,6 +118,21 @@ public class Refugio {
 		return false;
 		
 	}
+	
+	public TreeSet<Animal> getAnimalesOrdenadosPorEdad() {
+		TreeSet<Animal> porEdad = new TreeSet<>((animal1, animal2) -> {
+			int resultado = animal1.getEdadAproximada().compareTo(animal2.getEdadAproximada());
+			if (resultado == 0) {
+				return animal1.getCodigoAnimal().compareTo(animal2.getCodigoAnimal());
+			}
+			return resultado;
+		});
+		porEdad.addAll(animales);
+		return porEdad;
+	}
+	
+	
+	
 
 
 }

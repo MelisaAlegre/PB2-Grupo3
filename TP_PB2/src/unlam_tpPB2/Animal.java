@@ -10,6 +10,10 @@ public abstract class Animal implements Adoptable{
 	
 	
 	public Animal(String codigoAnimal, String nombre, Integer edadAproximada, Double peso, Estado estado) {
+		
+		if (peso <= 0) {
+			throw new DatoInvalidoException("El peso debe ser mayor a 0");
+		}
 		this.codigoAnimal = codigoAnimal;
 		this.nombre = nombre;
 		this.edadAproximada = edadAproximada;
@@ -68,8 +72,6 @@ public abstract class Animal implements Adoptable{
 	}
 
 
-	
-	
 	
 	
 }

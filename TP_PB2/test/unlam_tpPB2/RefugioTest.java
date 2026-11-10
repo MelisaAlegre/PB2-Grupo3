@@ -173,10 +173,12 @@ public class RefugioTest {
 	
 	@Test
 	public void validarCumplimientoDeRequisitosDeAdopcion() throws AnimalNoDisponibleException {
-		refugio.agregarAnimal(gato);
-		refugio.agregarAdoptante(adoptante2);
 		
-		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(6, LocalDate.of(2026, 11, 9), adoptante2, gato);
+		Adoptante adoptanteSinMascotas = new Adoptante(12345678, "Carlos", 1155443322, "Mitre 123", TipoVivienda.DEPARTAMENTO, true, false);
+		refugio.agregarAnimal(gato);
+		refugio.agregarAdoptante(adoptanteSinMascotas);
+		
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(6, LocalDate.of(2026, 11, 9), adoptanteSinMascotas, gato);
 		refugio.registrarSolicitud(nuevaSolicitud);
 		
 		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
@@ -186,9 +188,9 @@ public class RefugioTest {
 	@Test
 	public void cumplimientoRequisitosAdopcionConPerroConPatio() throws AnimalNoDisponibleException {
 		refugio.agregarAnimal(perro2);
-		refugio.agregarAdoptante(adoptante3); 
+		refugio.agregarAdoptante(adoptante2); 
 		
-		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(7, LocalDate.of(2026, 11, 9), adoptante3, perro2);
+		SolicitudAdopcion nuevaSolicitud = new SolicitudAdopcion(7, LocalDate.of(2026, 11, 9), adoptante2, perro2);
 		refugio.registrarSolicitud(nuevaSolicitud);
 		
 		boolean cumpleRequisitos = refugio.evaluaLosRequisitosDeAdopcion(nuevaSolicitud);
@@ -198,7 +200,7 @@ public class RefugioTest {
 	
 	@Test
 	public void rechazoAdopcionGatoConRestriccionDeMascotas() throws AnimalNoDisponibleException {
-		Adoptante adoptanteSinMascotas = new Adoptante(12345678, "Carlos", 1155443322, "Mitre 123", TipoVivienda.DEPARTAMENTO, true, false);
+		Adoptante adoptanteSinMascotas = new Adoptante(12345678, "Carlos", 1155443322, "Mitre 123", TipoVivienda.DEPARTAMENTO, true, true);
 		
 		refugio.agregarAnimal(gato);
 		refugio.agregarAdoptante(adoptanteSinMascotas);
@@ -211,10 +213,52 @@ public class RefugioTest {
 		
 	}
 	
+	@Test (expected = DatoInvalidoException.class)
+	public void noPermitirAnimalConPesoNegativo() {
+		new Perro("A99", "Rex", 3, -2.0, Estado.DISPONIBLE, Tamanio.GRANDE, true);
+	}
 	
 
+	@Test
+	public void ordenarAnimalesPorEdadConComparator() {
+		refugio.agregarAnimal(gato2);   
+		refugio.agregarAnimal(perro2);  
+		refugio.agregarAnimal(gato);    
 
+		TreeSet<Animal> ordenados = refugio.getAnimalesOrdenadosPorEdad();
 
+		assertEquals("F11", ordenados.first().getCodigoAnimal());
+		assertEquals("F22", ordenados.last().getCodigoAnimal());
+	}
+
+	
+	@Test
+	public void cadaAnimalPideSuCantidadDeVacunas() {
+		Vacunable unPerro = perro2;
+		Vacunable unGato = gato;
+
+		assertEquals(3, unPerro.getCantidadVacunasRequeridas());
+		assertEquals(2, unGato.getCantidadVacunasRequeridas());
+	}
+	
+	@Test
+	public void noPerderSolicitudesDeLaMismaFecha() throws AnimalNoDisponibleException {
+		refugio.agregarAnimal(gato);
+		refugio.agregarAnimal(gato2);
+		refugio.agregarAdoptante(adoptante);
+		refugio.agregarAdoptante(adoptante2);
+		LocalDate fecha = LocalDate.of(2026, 11, 9);
+
+		refugio.registrarSolicitud(new SolicitudAdopcion(1, fecha, adoptante, gato));
+		refugio.registrarSolicitud(new SolicitudAdopcion(2, fecha, adoptante2, gato2));
+
+		assertEquals(2, refugio.getSolicitudes().size());
+	}
+	
+	
+	
+	
+	
 	
 	
 }

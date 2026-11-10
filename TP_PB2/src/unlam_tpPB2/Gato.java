@@ -1,6 +1,6 @@
 package unlam_tpPB2;
 
-public class Gato extends Animal {
+public class Gato extends Animal implements Vacunable{
 	
 	private TipoPelaje tipoPelaje;
 	private boolean requiereHogarSinOtraMascota;
@@ -38,7 +38,7 @@ public class Gato extends Animal {
 	@Override
 	public Boolean cumpleRequisitosAdopcion(Adoptante adoptante) {
 
-		if(this.requiereHogarSinOtraMascota == adoptante.getTieneOtrasMascotas()) {
+		if(this.requiereHogarSinOtraMascota && adoptante.getTieneOtrasMascotas()) {
 			return false;
 		}
 		return true;
@@ -46,7 +46,10 @@ public class Gato extends Animal {
 	}
 
 
-	
+	@Override
+	public int getCantidadVacunasRequeridas() {
+		return 2;
+	}
 	
 	
 	
